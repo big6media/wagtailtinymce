@@ -35,6 +35,7 @@ from django.utils.html import format_html_join
 from django.utils.safestring import mark_safe
 
 from wagtail import __version__ as WAGTAIL_VERSION
+from wagtail.core.whitelist import attribute_rule, check_url, allow_without_attributes
 
 if DJANGO_VERSION >= '2.0':
     from django.urls import reverse
@@ -160,8 +161,74 @@ def docs_richtexteditor_js():
         to_js_primitive(static('wagtailtinymce/js/tinymce-plugins/wagtaildoclink.js')),
         to_js_primitive(translation.to_locale(translation.get_language())),
     )
+
     js_includes = _format_js_includes([
         'wagtaildocs/js/document-chooser.js',
         'wagtaildocs/js/document-chooser-modal.js',
     ])
     return preload + js_includes
+
+
+@hooks.register('construct_whitelister_element_rules')
+def whitelister_element_rules():
+    common = {
+        'style': True,
+        'width': True,
+        'margin-left': True,
+        'margin-right': True,
+        'height': True,
+        'border-color': True,
+        'text-align': True,
+        'background-color': True,
+        'vertical-align': True,
+        'font-family': True,
+        'valign': True,
+    }
+
+    style_rule = attribute_rule(common)
+
+    table_rule = attribute_rule(dict(common, **{
+        'border': True,
+        'cellpadding': True,
+        'cellspacing': True,
+    }))
+    cell_rule = attribute_rule(dict(common, **{
+        'colspan': True,
+        'scope': True,
+        'rowspan': True,
+    }))
+
+    return {
+        'a': attribute_rule({
+            'href': check_url,
+            'target': True,
+            'class': True
+         }),
+        'img': attribute_rule({
+            'src': False,
+            'width': False,
+            'height': False,
+            'alt': False
+         }),
+        'code': allow_without_attributes,
+        'blockquote': style_rule,
+        'pre': style_rule,
+        'hr': style_rule,
+        'p': style_rule,
+        'h2': style_rule,
+        'h3': style_rule,
+        'h4': style_rule,
+        'h5': style_rule,
+        'span': style_rule,
+
+        'table': table_rule,
+        'thead': allow_without_attributes,
+        'tfoot': allow_without_attributes,
+        'tbody': allow_without_attributes,
+        'colgroup': allow_without_attributes,
+        'col': allow_without_attributes,
+        'caption': allow_without_attributes,
+        'tr': style_rule,
+        'th': cell_rule,
+        'td': cell_rule,
+    }
