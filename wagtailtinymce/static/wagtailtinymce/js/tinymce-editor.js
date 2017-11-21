@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 'use strict';
 
-var mcePlugins = ['hr', 'code', 'fullscreen', 'noneditable', 'paste', 'table'],
+var mcePlugins = ['hr', 'code', 'fullscreen', 'noneditable', 'paste', 'table', 'lists'],
     mceTools = ['inserttable'],
     mceExternalPlugins = {};
 
@@ -60,25 +60,20 @@ function makeTinyMCEEditable(id, kwargs) {
                 {title: 'Header 6', format: 'h6'}
             ]},
             {title: 'Inline', items: [
-                {title: 'Bold', icon: 'bold', format: 'bold'},
-                {title: 'Italic', icon: 'italic', format: 'italic'},
-                {title: 'Underline', icon: 'underline', format: 'underline'},
                 {title: 'Strikethrough', icon: 'strikethrough', format: 'strikethrough'},
                 {title: 'Superscript', icon: 'superscript', format: 'superscript'},
                 {title: 'Subscript', icon: 'subscript', format: 'subscript'},
-            ]},
-            {title: 'Blocks', items: [
-                {title: 'Paragraph', format: 'p'},
-                {title: 'Blockquote', format: 'blockquote'},
-                {title: 'Div', format: 'div'},
-                {title: 'Pre', format: 'pre'}
             ]},
             {title: 'Alignment', items: [
                 {title: 'Left', icon: 'alignleft', format: 'alignleft'},
                 {title: 'Center', icon: 'aligncenter', format: 'aligncenter'},
                 {title: 'Right', icon: 'alignright', format: 'alignright'},
                 {title: 'Justify', icon: 'alignjustify', format: 'alignjustify'}
-            ]}
+            ]},
+            {title: 'Blocks', items: [
+                {title: 'Paragraph', format: 'p'},
+                {title: 'Div', format: 'div'},
+            ]},
         ],
         plugins: mcePlugins,
         tools: mceTools,
