@@ -73,7 +73,6 @@ function makeTinyMCEEditable(id, kwargs) {
         tools: mceTools,
         external_plugins: mceExternalPlugins,
         branding: false,
-        paste_as_text: true,
         extended_valid_elements: "i[class],div[class]",
         table_default_attributes: {
             class: 'table table-responsive'
