@@ -84,7 +84,7 @@ def insert_editor_js():
         '    window.tinymce = window.tinymce || {{}};'
         '    window.tinymce.base = window.tinymce.baseURL = {};'
         '    window.tinymce.suffix = "";'
-        '}}());'
+        '   }}());'
         '</script>',
         to_js_primitive(static('wagtailtinymce/js/vendor/tinymce')),
     )
@@ -92,6 +92,7 @@ def insert_editor_js():
         'wagtailtinymce/js/vendor/tinymce/jquery.tinymce.min.js',
         'wagtailtinymce/js/vendor/tinymce/tinymce.min.js',
         'wagtailtinymce/js/tinymce-editor.js',
+        'wagtailtinymce/js/removeptags.js',
     ])
     return preload + js_includes + hook_output('insert_tinymce_js')
 
@@ -169,6 +170,19 @@ def docs_richtexteditor_js():
     return preload + js_includes
 
 
+@hooks.register('insert_tinymce_js')
+def header_richtexteditor_js():
+    return format_html(
+        """
+        <script>
+            registerMCEPlugin("wagtailheaderlink", {}, {});
+        </script>
+        """,
+        to_js_primitive(static('wagtailtinymce/js/tinymce-plugins/wagtailheaderlink.js')),
+        to_js_primitive(translation.to_locale(translation.get_language())),
+    )
+
+
 @hooks.register('construct_whitelister_element_rules')
 def whitelister_element_rules():
     common = {
@@ -176,12 +190,11 @@ def whitelister_element_rules():
         'width': True,
         'margin-left': True,
         'margin-right': True,
+        'padding-left': True,
+        'padding-right': True,
         'height': True,
-        'border-color': True,
         'text-align': True,
-        'background-color': True,
         'vertical-align': True,
-        'font-family': True,
         'valign': True,
     }
 
@@ -191,6 +204,7 @@ def whitelister_element_rules():
         'border': True,
         'cellpadding': True,
         'cellspacing': True,
+        'class': True,
     }))
     cell_rule = attribute_rule(dict(common, **{
         'colspan': True,

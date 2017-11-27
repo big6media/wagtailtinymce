@@ -53,8 +53,6 @@ function makeTinyMCEEditable(id, kwargs) {
         selector: '#' + id.toString(),
         style_formats: [
             {title: 'Headers', items: [
-                {title: 'Header 2', format: 'h2'},
-                {title: 'Header 3', format: 'h3'},
                 {title: 'Header 4', format: 'h4'},
                 {title: 'Header 5', format: 'h5'},
                 {title: 'Header 6', format: 'h6'}
@@ -70,15 +68,21 @@ function makeTinyMCEEditable(id, kwargs) {
                 {title: 'Right', icon: 'alignright', format: 'alignright'},
                 {title: 'Justify', icon: 'alignjustify', format: 'alignjustify'}
             ]},
-            {title: 'Blocks', items: [
-                {title: 'Paragraph', format: 'p'},
-                {title: 'Div', format: 'div'},
-            ]},
         ],
         plugins: mcePlugins,
         tools: mceTools,
         external_plugins: mceExternalPlugins,
         branding: false,
+        paste_as_text: true,
+        extended_valid_elements: "i[class],div[class]",
+        table_default_attributes: {
+            class: 'table table-responsive'
+        },
+        table_appearance_options: false,
+        table_advtab: false,
+        table_default_styles: {
+            minWidth: '50%'
+        },
         setup: function (editor) {
             editor.on('change', function () {
                 editor.save();

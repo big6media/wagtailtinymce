@@ -54,7 +54,7 @@ class TinyMCERichTextArea(WidgetWithScript, widgets.Textarea):
                     ['undo', 'redo'],
                     ['insert'],
                     ['styleselect'],
-                    ['bold', 'italic', 'underline', 'blockquote'],
+                    ['style-h2', 'style-h3', 'style-p', 'bold', 'italic', 'underline', 'blockquote'],
                     ['numlist', 'bullist', 'outdent', 'indent'],
                     ['table'],
                     ['pastetext', 'code'],
