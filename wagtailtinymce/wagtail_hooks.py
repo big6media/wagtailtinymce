@@ -225,6 +225,13 @@ def whitelister_element_rules():
             'alt': True,
             'class': True,
          }),
+         'figure': attribute_rule({
+            'class': True,
+            'style': True,
+         }),
+         'figcaption': attribute_rule({
+            'class': True,
+         }),
         'code': allow_without_attributes,
         'blockquote': style_rule,
         'pre': style_rule,
