@@ -219,10 +219,11 @@ def whitelister_element_rules():
             'class': True
          }),
         'img': attribute_rule({
-            'src': False,
-            'width': False,
-            'height': False,
-            'alt': False
+            'src': True,
+            'width': True,
+            'height': True,
+            'alt': True,
+            'class': True,
          }),
         'code': allow_without_attributes,
         'blockquote': style_rule,
