@@ -227,7 +227,6 @@ def whitelister_element_rules():
          }),
          'figure': attribute_rule({
             'class': True,
-            'style': True,
          }),
          'figcaption': attribute_rule({
             'class': True,
