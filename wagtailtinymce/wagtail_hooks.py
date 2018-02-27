@@ -196,6 +196,7 @@ def whitelister_element_rules():
         'text-align': True,
         'vertical-align': True,
         'valign': True,
+        'font-weight': False,
     }
 
     style_rule = attribute_rule(common)
