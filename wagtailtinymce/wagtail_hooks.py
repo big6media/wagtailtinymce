@@ -196,7 +196,6 @@ def whitelister_element_rules():
         'text-align': True,
         'vertical-align': True,
         'valign': True,
-        'font-weight': False,
     }
 
     style_rule = attribute_rule(common)
@@ -241,7 +240,6 @@ def whitelister_element_rules():
         'h3': style_rule,
         'h4': style_rule,
         'h5': style_rule,
-        'span': style_rule,
 
         'table': table_rule,
         'thead': allow_without_attributes,
