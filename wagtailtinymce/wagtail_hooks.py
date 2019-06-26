@@ -45,6 +45,7 @@ else:
 if WAGTAIL_VERSION >= '2.0':
     from wagtail.admin.templatetags.wagtailadmin_tags import hook_output
     from wagtail.core import hooks
+    from wagtail.admin.rich_text.converters.editor_html import WhitelistRule
 else:
     from wagtail.wagtailadmin.templatetags.wagtailadmin_tags import hook_output
     from wagtail.wagtailcore import hooks
@@ -116,6 +117,7 @@ def images_richtexteditor_js():
     ])
     return preload + js_includes
 
+
 @hooks.register('insert_tinymce_js')
 def embeds_richtexteditor_js():
     preload = format_html(
@@ -183,8 +185,8 @@ def header_richtexteditor_js():
     )
 
 
-@hooks.register('construct_whitelister_element_rules')
-def whitelister_element_rules():
+@hooks.register('register_rich_text_features')
+def whitelister_element_rules(features):
     common = {
         'style': True,
         'width': True,
@@ -212,43 +214,45 @@ def whitelister_element_rules():
         'rowspan': True,
     }))
 
-    return {
-        'a': attribute_rule({
-            'href': check_url,
-            'target': True,
-            'class': True
-         }),
-        'img': attribute_rule({
-            'src': True,
-            'width': True,
-            'height': True,
-            'alt': True,
-            'class': True,
-         }),
-         'figure': attribute_rule({
-            'class': True,
-         }),
-         'figcaption': attribute_rule({
-            'class': True,
-         }),
-        'code': allow_without_attributes,
-        'blockquote': style_rule,
-        'pre': style_rule,
-        'hr': style_rule,
-        'p': style_rule,
-        'h2': style_rule,
-        'h3': style_rule,
-        'h4': style_rule,
-        'h5': style_rule,
+    features.register_converter_rule('editorhtml', 'table', [
+        WhitelistRule('table', table_rule),
+        WhitelistRule('tbody', allow_without_attributes),
+        WhitelistRule('tr', cell_rule),
+        WhitelistRule('td', cell_rule),
+        WhitelistRule('th', style_rule),
+        WhitelistRule('colgroup', allow_without_attributes),
+        WhitelistRule('col', allow_without_attributes),
+    ])
 
-        'table': table_rule,
-        'thead': allow_without_attributes,
-        'tfoot': allow_without_attributes,
-        'tbody': allow_without_attributes,
-        'colgroup': allow_without_attributes,
-        'col': allow_without_attributes,
-        'caption': allow_without_attributes,
-        'tr': style_rule,
-        'th': cell_rule,
-        'td': cell_rule,
-    }
+    features.register_converter_rule('editorhtml', 'headers', [
+        WhitelistRule('h2', style_rule),
+        WhitelistRule('h3', style_rule),
+        WhitelistRule('h4', style_rule),
+        WhitelistRule('h5', style_rule),
+        WhitelistRule('h6', style_rule),
+    ])
+
+    features.register_converter_rule('editorhtml', 'misc', [
+        WhitelistRule('blockquote', style_rule),
+        WhitelistRule('sub', style_rule),
+        WhitelistRule('sup', style_rule),
+        WhitelistRule('pre', style_rule),
+        WhitelistRule('figcaption', style_rule),
+        WhitelistRule('figure', style_rule),
+        WhitelistRule('code', style_rule),
+    ])
+
+    features.register_converter_rule('editorhtml', 'big6_base', [
+        WhitelistRule('a', attribute_rule({'href': check_url, 'target': True, 'class': True})),
+        WhitelistRule('img', attribute_rule({'src': True, 'width': True, 'height': True,
+                                             'alt': True, 'class': True, })),
+        WhitelistRule('pre', style_rule),
+        WhitelistRule('div', style_rule),
+        WhitelistRule('span', style_rule),
+        WhitelistRule('p', style_rule),
+    ])
+
+    features.default_features.append('table')
+    features.default_features.append('headers')
+    features.default_features.append('misc')
+    features.default_features.append('big6_base')

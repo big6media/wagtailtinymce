@@ -58,6 +58,7 @@ class TinyMCERichTextArea(WidgetWithScript, widgets.Textarea):
                     ['numlist', 'bullist', 'outdent', 'indent'],
                     ['table'],
                     ['pastetext', 'code'],
+                    ['fullscreen'],
                 ]
             ],
             'menus': False,
@@ -133,4 +134,5 @@ class TinyMCERichTextArea(WidgetWithScript, widgets.Textarea):
         if WAGTAIL_VERSION >= '2.0':
             return self.converter.to_database_format(original_value)
         else:
+
             return DbWhitelister.clean(original_value)
