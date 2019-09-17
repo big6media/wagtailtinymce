@@ -214,6 +214,14 @@ def whitelister_element_rules(features):
         'rowspan': True,
     }))
 
+    iframe_rule = attribute_rule({
+        'width': True,
+        'height': True,
+        'frameborder': True,
+        'marginheight': True,
+        'src': True,
+    })
+
     features.register_converter_rule('editorhtml', 'table', [
         WhitelistRule('table', table_rule),
         WhitelistRule('tbody', allow_without_attributes),
@@ -250,6 +258,10 @@ def whitelister_element_rules(features):
         WhitelistRule('div', style_rule),
         WhitelistRule('span', style_rule),
         WhitelistRule('p', style_rule),
+    ])
+
+    features.register_converter_rule('iframe', 'iframe', [
+        WhitelistRule('iframe', iframe_rule),
     ])
 
     features.default_features.append('table')
