@@ -132,7 +132,15 @@ class TinyMCERichTextArea(WidgetWithScript, widgets.Textarea):
         if original_value is None:
             return None
         if WAGTAIL_VERSION >= '2.0':
-            return self.converter.to_database_format(original_value)
+            if 'iframe' in original_value:
+                # print("*"*80)
+                # print(original_value)
+                ret = self.converter.to_database_format(original_value)
+                # print("-"*80)
+                # print(ret)
+                return ret
+            else:
+                return self.converter.to_database_format(original_value)
         else:
 
             return DbWhitelister.clean(original_value)

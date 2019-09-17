@@ -260,7 +260,7 @@ def whitelister_element_rules(features):
         WhitelistRule('p', style_rule),
     ])
 
-    features.register_converter_rule('iframe', 'iframe', [
+    features.register_converter_rule('editorhtml', 'iframe', [
         WhitelistRule('iframe', iframe_rule),
     ])
 
@@ -268,3 +268,4 @@ def whitelister_element_rules(features):
     features.default_features.append('headers')
     features.default_features.append('misc')
     features.default_features.append('big6_base')
+    features.default_features.append('iframe')
