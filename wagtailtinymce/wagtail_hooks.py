@@ -222,6 +222,22 @@ def whitelister_element_rules(features):
         'src': True,
     })
 
+    form_rule = attribute_rule({
+        'action': True,
+        'method': True,
+        'style': True,
+        'src': True,
+    })
+
+    input_rule = attribute_rule({
+        'type': True,
+        'src': True,
+        'value': True,
+        'name': True,
+        'alt': True,
+        'border': True,
+    })
+
     features.register_converter_rule('editorhtml', 'table', [
         WhitelistRule('table', table_rule),
         WhitelistRule('tbody', allow_without_attributes),
@@ -264,8 +280,14 @@ def whitelister_element_rules(features):
         WhitelistRule('iframe', iframe_rule),
     ])
 
+    features.register_converter_rule('editorhtml', 'form', [
+        WhitelistRule('form', form_rule),
+        WhitelistRule('input', input_rule),
+    ])
+
     features.default_features.append('table')
     features.default_features.append('headers')
     features.default_features.append('misc')
     features.default_features.append('big6_base')
     features.default_features.append('iframe')
+    features.default_features.append('form')
